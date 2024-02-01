@@ -8,7 +8,6 @@ import 'package:e_commerce_app/providers/user_provider.dart';
 import 'package:e_commerce_app/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(
@@ -35,13 +34,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // authService.getUserData(context: context);
-  }
-
-  void getData() async {
-    final SharedPreferences p = await SharedPreferences.getInstance();
-    var data = p.getString('x-auth-token');
-    log(data.toString());
   }
 
   @override
@@ -68,9 +60,7 @@ class _MyAppState extends State<MyApp> {
         return FutureBuilder(
           future: authService.getUserData(context: context),
           builder: (context, snapshot) {
-            getData();
             if (snapshot.connectionState == ConnectionState.done) {
-              log("token ${context.watch<UserProvider>().user.token}");
               return context.watch<UserProvider>().user.token.isNotEmpty
                   ? const HomeScreens()
                   : const AuthScreens();
