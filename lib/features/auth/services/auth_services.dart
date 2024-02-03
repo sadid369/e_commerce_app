@@ -7,7 +7,7 @@ import 'package:e_commerce_app/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_app/constants/error_handaling.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
-import 'package:e_commerce_app/features/home/screens/home_screens.dart';
+// import 'package:e_commerce_app/features/home/screens/home_screens.dart';
 import 'package:e_commerce_app/models/user.dart';
 import 'package:e_commerce_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
