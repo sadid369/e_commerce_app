@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:e_commerce_app/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_app/constants/error_handaling.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
@@ -76,7 +79,7 @@ class AuthService {
           context.read<UserProvider>().setUser(res.body);
           await prefs.setString('x-auth-token', jsonDecode(res.body)["token"]);
           Navigator.of(context)
-              .pushNamedAndRemoveUntil(HomeScreens.routeName, (route) => false);
+              .pushNamedAndRemoveUntil(BottomBar.routeName, (route) => false);
         },
       );
     } catch (e) {
