@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:e_commerce_app/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
+import 'package:e_commerce_app/features/admin/screens/admin_screens.dart';
 import 'package:e_commerce_app/features/auth/screens/auth_screens.dart';
 import 'package:e_commerce_app/features/auth/services/auth_services.dart';
 // import 'package:e_commerce_app/features/home/screens/home_screens.dart';
@@ -63,7 +64,9 @@ class _MyAppState extends State<MyApp> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return context.watch<UserProvider>().user.token.isNotEmpty
-                  ? const BottomBar()
+                  ? context.watch<UserProvider>().user.type == "user"
+                      ? const BottomBar()
+                      : const AdminScreens()
                   : const AuthScreens();
             }
             return const Scaffold(
