@@ -7,6 +7,7 @@ import 'package:e_commerce_app/common/widgets/custom_button.dart';
 import 'package:e_commerce_app/common/widgets/custom_text_field.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
+import 'package:e_commerce_app/features/admin/services/admin_services.dart';
 import 'package:flutter/material.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -18,10 +19,13 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
+  final AdminServices adminServices = AdminServices();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
-  final TextEditingController quantityNameController = TextEditingController();
+  final TextEditingController quantityController = TextEditingController();
+  final _addProductFormKey = GlobalKey<FormState>();
+
   List<File> images = [];
   @override
   void dispose() {
@@ -29,7 +33,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     nameController.dispose();
     descriptionController.dispose();
     priceController.dispose();
-    quantityNameController.dispose();
+    quantityController.dispose();
   }
 
   String category = 'Mobiles';
@@ -40,6 +44,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
     'Books',
     'Fashion',
   ];
+  void sellProduct() {
+    if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
+      adminServices.sellProduct(
+        context: context,
+        name: nameController.text,
+        description: descriptionController.text,
+        quantity: double.parse(quantityController.text),
+        price: double.parse(priceController.text),
+        category: category,
+        images: images,
+      );
+    }
+  }
+
   void selectImages() async {
     var res = await pickImages();
     setState(() {
@@ -65,6 +83,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       ),
       body: SingleChildScrollView(
         child: Form(
+          key: _addProductFormKey,
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: Column(
@@ -128,23 +147,29 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   height: 30,
                 ),
                 CustomTextField(
-                    controller: nameController, hintText: "Product Name"),
-                const SizedBox(
-                  height: 10,
-                ),
-                CustomTextField(
-                    controller: nameController,
-                    maxLine: 5,
-                    hintText: "Description"),
-                const SizedBox(
-                  height: 10,
-                ),
-                CustomTextField(controller: nameController, hintText: "Price"),
-                const SizedBox(
-                  height: 10,
-                ),
-                CustomTextField(
                   controller: nameController,
+                  hintText: "Product Name",
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  controller: descriptionController,
+                  maxLine: 5,
+                  hintText: "Description",
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  controller: priceController,
+                  hintText: "Price",
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  controller: quantityController,
                   hintText: "Quantity",
                 ),
                 SizedBox(
@@ -170,7 +195,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 ),
                 CustomButton(
                   text: 'Sell',
-                  onTap: () {},
+                  onTap: sellProduct,
                 )
               ],
             ),
