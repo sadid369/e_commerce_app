@@ -1,9 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:e_commerce_app/constants/error_handaling.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
+import 'package:e_commerce_app/features/admin/screens/posts_screen.dart';
 import 'package:e_commerce_app/models/product.dart';
 import 'package:e_commerce_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +53,65 @@ class AdminServices {
         context: context,
         onSuccess: () {
           showSnackbar(context, 'Product added Successfully');
-          Navigator.pop(context);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(PostsScreen.routeName, (route) => false);
+        },
+      );
+    } catch (e) {
+      showSnackbar(context, e.toString());
+    }
+  }
+
+  Future<List<Product>> fetchAllProducts(BuildContext context) async {
+    List<Product> productList = [];
+    try {
+      var res = await http.get(
+        Uri.parse(
+          '$uri/admin/get-product',
+        ),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8",
+          'x-auth-token': context.read<UserProvider>().user.token,
+        },
+      );
+      log(res.body);
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            productList.add(
+              Product.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)[i],
+                ),
+              ),
+            );
+          }
+        },
+      );
+    } catch (e) {
+      showSnackbar(context, "fetch All ${e.toString()}");
+    }
+    return productList;
+  }
+
+  Future<void> deleteProduct(BuildContext context, String id) async {
+    try {
+      var res = await http.post(
+        Uri.parse('$uri/admin/delete-product'),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8",
+          'x-auth-token': context.read<UserProvider>().user.token,
+        },
+        body: jsonEncode({"id": id}),
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackbar(context, res.body);
         },
       );
     } catch (e) {

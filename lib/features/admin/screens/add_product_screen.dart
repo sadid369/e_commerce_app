@@ -7,6 +7,7 @@ import 'package:e_commerce_app/common/widgets/custom_button.dart';
 import 'package:e_commerce_app/common/widgets/custom_text_field.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
+import 'package:e_commerce_app/features/admin/screens/posts_screen.dart';
 import 'package:e_commerce_app/features/admin/services/admin_services.dart';
 import 'package:flutter/material.dart';
 
@@ -72,6 +73,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    PostsScreen.routeName, (route) => false);
+              },
+              icon: Icon(Icons.arrow_back)),
           centerTitle: true,
           flexibleSpace: Container(
             decoration: const BoxDecoration(
