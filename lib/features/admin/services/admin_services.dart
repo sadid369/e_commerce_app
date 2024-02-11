@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
+import 'package:e_commerce_app/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_app/constants/error_handaling.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
+import 'package:e_commerce_app/features/admin/screens/admin_screens.dart';
 import 'package:e_commerce_app/features/admin/screens/posts_screen.dart';
 import 'package:e_commerce_app/models/product.dart';
 import 'package:e_commerce_app/providers/user_provider.dart';
@@ -53,8 +55,8 @@ class AdminServices {
         context: context,
         onSuccess: () {
           showSnackbar(context, 'Product added Successfully');
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil(PostsScreen.routeName, (route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              AdminScreens.routeName, (route) => false);
         },
       );
     } catch (e) {
@@ -96,7 +98,11 @@ class AdminServices {
     return productList;
   }
 
-  Future<void> deleteProduct(BuildContext context, String id) async {
+  Future<void> deleteProduct({
+    required BuildContext context,
+    required Product product,
+    required VoidCallback onSuccess,
+  }) async {
     try {
       var res = await http.post(
         Uri.parse('$uri/admin/delete-product'),
@@ -104,13 +110,14 @@ class AdminServices {
           "Content-Type": "application/json; charset=UTF-8",
           'x-auth-token': context.read<UserProvider>().user.token,
         },
-        body: jsonEncode({"id": id}),
+        body: jsonEncode({"id": product.id}),
       );
 
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () {
+          onSuccess();
           showSnackbar(context, res.body);
         },
       );

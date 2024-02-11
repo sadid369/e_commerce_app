@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:e_commerce_app/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_app/common/widgets/custom_button.dart';
 import 'package:e_commerce_app/common/widgets/custom_text_field.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
+import 'package:e_commerce_app/features/admin/screens/admin_screens.dart';
 import 'package:e_commerce_app/features/admin/screens/posts_screen.dart';
 import 'package:e_commerce_app/features/admin/services/admin_services.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +78,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           leading: IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                    PostsScreen.routeName, (route) => false);
+                    AdminScreens.routeName, (route) => false);
               },
               icon: Icon(Icons.arrow_back)),
           centerTitle: true,

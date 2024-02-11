@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_app/features/admin/screens/add_product_screen.dart';
+import 'package:e_commerce_app/features/admin/screens/admin_screens.dart';
 import 'package:e_commerce_app/features/admin/screens/posts_screen.dart';
 import 'package:e_commerce_app/features/auth/screens/auth_screens.dart';
 import 'package:e_commerce_app/features/home/screens/home_screens.dart';
@@ -31,6 +32,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (context) => const PostsScreen(),
+      );
+    case AdminScreens.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (context) => const AdminScreens(),
       );
     default:
       // TODO :Add here a lottiAnimation.

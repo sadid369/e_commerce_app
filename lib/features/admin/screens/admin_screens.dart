@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AdminScreens extends StatefulWidget {
+  static const String routeName = 'admin-screen';
   const AdminScreens({Key? key}) : super(key: key);
 
   @override
