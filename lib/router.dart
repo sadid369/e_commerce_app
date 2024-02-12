@@ -5,6 +5,7 @@ import 'package:e_commerce_app/features/admin/screens/posts_screen.dart';
 import 'package:e_commerce_app/features/auth/screens/auth_screens.dart';
 import 'package:e_commerce_app/features/home/screens/category_deal_screen.dart';
 import 'package:e_commerce_app/features/home/screens/home_screens.dart';
+import 'package:e_commerce_app/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -44,6 +45,12 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (context) => CategoryDealScreen(category: category),
+      );
+    case SearchScreen.routeName:
+      var searchQuery = routeSettings.arguments as String;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (context) => SearchScreen(searchQuery: searchQuery),
       );
     default:
       // TODO :Add here a lottiAnimation.
