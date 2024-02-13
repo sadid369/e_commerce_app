@@ -23,7 +23,7 @@ class SearchedProduct extends StatelessWidget {
             children: [
               Image.network(
                 product.images[0],
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.fitWidth,
                 height: 135,
                 width: 135,
               ),
