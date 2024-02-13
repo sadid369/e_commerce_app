@@ -2,6 +2,7 @@
 import 'package:e_commerce_app/common/widgets/loader.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/features/home/widgets/address_box.dart';
+import 'package:e_commerce_app/features/product_details/screens/product_details_screen.dart';
 import 'package:e_commerce_app/features/search/services/search_services.dart';
 import 'package:e_commerce_app/features/search/widgets/searched_product.dart';
 import 'package:e_commerce_app/models/product.dart';
@@ -130,8 +131,15 @@ class _SearchScreenState extends State<SearchScreen> {
                     itemCount: productList!.length,
                     itemBuilder: (context, index) {
                       var product = productList![index];
-                      return SearchedProduct(
-                        product: product,
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                              ProductDetailsScreen.routeName,
+                              arguments: product);
+                        },
+                        child: SearchedProduct(
+                          product: product,
+                        ),
                       );
                     },
                   ),
