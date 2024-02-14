@@ -27,4 +27,7 @@ class Rating {
 
   factory Rating.fromJson(String source) =>
       Rating.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'Rating(userId: $userId, rating: $rating)';
 }
