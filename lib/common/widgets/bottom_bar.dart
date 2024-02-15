@@ -1,7 +1,9 @@
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/features/account/screens/account_screen.dart';
 import 'package:e_commerce_app/features/home/screens/home_screens.dart';
+import 'package:e_commerce_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BottomBar extends StatefulWidget {
   static const String routeName = "/home";
@@ -30,6 +32,7 @@ class _BottomBarState extends State<BottomBar> {
   ];
   @override
   Widget build(BuildContext context) {
+    final userCartLen = context.watch<UserProvider>().user.cart.length;
     return Scaffold(
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
@@ -94,9 +97,9 @@ class _BottomBarState extends State<BottomBar> {
                   ),
                 ),
               ),
-              child: const Badge(
+              child: Badge(
                 // backgroundColor: Colors.blue,
-                label: Text('2'),
+                label: Text(userCartLen.toString()),
                 child: Icon(
                   Icons.shopping_cart_outlined,
                 ),

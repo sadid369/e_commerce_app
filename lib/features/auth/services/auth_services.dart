@@ -23,13 +23,15 @@ class AuthService {
       required BuildContext context}) async {
     try {
       User user = User(
-          password: password,
-          id: '',
-          name: name,
-          email: email,
-          address: '',
-          type: '',
-          token: '');
+        password: password,
+        id: '',
+        name: name,
+        email: email,
+        address: '',
+        type: '',
+        token: '',
+        cart: [],
+      );
       http.Response res = await http.post(
         Uri.parse("$uri/api/signup"),
         body: user.toJson(),
@@ -56,13 +58,15 @@ class AuthService {
       required BuildContext context}) async {
     try {
       User user = User(
-          password: password,
-          id: '',
-          name: '',
-          email: email,
-          address: '',
-          type: '',
-          token: '');
+        password: password,
+        id: '',
+        name: '',
+        email: email,
+        address: '',
+        type: '',
+        token: '',
+        cart: [],
+      );
       http.Response res = await http.post(
         Uri.parse("$uri/api/signin"),
         body: user.toJson(),
