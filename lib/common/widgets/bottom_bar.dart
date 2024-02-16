@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/features/account/screens/account_screen.dart';
+import 'package:e_commerce_app/features/cart/screens/cart_screen.dart';
 import 'package:e_commerce_app/features/home/screens/home_screens.dart';
 import 'package:e_commerce_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +27,7 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const HomeScreens(),
     const AccountScreen(),
-    const Center(
-      child: Text('Cart Page '),
-    ),
+    const CartScreen()
   ];
   @override
   Widget build(BuildContext context) {
