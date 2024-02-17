@@ -62,9 +62,10 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         builder: (context) => ProductDetailsScreen(product: product),
       );
     case AddressScreen.routeName:
+      var amount = routeSettings.arguments as String;
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (context) => const AddressScreen(),
+        builder: (context) => AddressScreen(amount: amount),
       );
     default:
       // TODO :Add here a lottiAnimation.
