@@ -138,6 +138,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
             ListView.builder(
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               itemCount: user.cart.length,
               itemBuilder: (context, index) {
                 return CartProduct(index: index);

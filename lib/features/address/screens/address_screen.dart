@@ -48,9 +48,12 @@ class _AddressScreenState extends State<AddressScreen> {
 
   void onGooglePayResult(paymentResult) {
     // Send the resulting Google Pay token to your server / PSP
+
     if (context.read<UserProvider>().user.address.isEmpty) {
+      log("paymentResult : ${paymentResult.toString()}");
       addressServices.saveUserAddress(
           context: context, address: addressToBeUsed);
+      log("paymentResult : ${paymentResult.toString()}");
     }
     addressServices.placeOrder(
       context: context,
@@ -90,7 +93,7 @@ class _AddressScreenState extends State<AddressScreen> {
     } else {
       showSnackbar(context, 'ERROR');
     }
-    log(addressToBeUsed);
+    // log(addressToBeUsed);
   }
 
   @override

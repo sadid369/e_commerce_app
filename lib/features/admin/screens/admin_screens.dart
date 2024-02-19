@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/features/account/screens/account_screen.dart';
+import 'package:e_commerce_app/features/admin/screens/order_admin_screen.dart';
 import 'package:e_commerce_app/features/admin/screens/posts_screen.dart';
 import 'package:e_commerce_app/features/admin/services/admin_services.dart';
 import 'package:e_commerce_app/features/home/screens/home_screens.dart';
@@ -29,9 +30,7 @@ class _AdminScreensState extends State<AdminScreens> {
     const Center(
       child: Text('Analytic Page '),
     ),
-    const Center(
-      child: Text('Cart Page '),
-    ),
+    const OrderAdminScreen()
   ];
 
   @override

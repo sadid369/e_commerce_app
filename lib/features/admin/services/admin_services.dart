@@ -9,6 +9,7 @@ import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
 import 'package:e_commerce_app/features/admin/screens/admin_screens.dart';
 import 'package:e_commerce_app/features/admin/screens/posts_screen.dart';
+import 'package:e_commerce_app/models/order.dart';
 import 'package:e_commerce_app/models/product.dart';
 import 'package:e_commerce_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +112,72 @@ class AdminServices {
           'x-auth-token': context.read<UserProvider>().user.token,
         },
         body: jsonEncode({"id": product.id}),
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          onSuccess();
+          showSnackbar(context, res.body);
+        },
+      );
+    } catch (e) {
+      showSnackbar(context, e.toString());
+    }
+  }
+
+  Future<List<Order>> fetchAllOrders(BuildContext context) async {
+    List<Order> orderList = [];
+    try {
+      var res = await http.get(
+        Uri.parse(
+          '$uri/admin/get-orders',
+        ),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8",
+          'x-auth-token': context.read<UserProvider>().user.token,
+        },
+      );
+      log(res.body);
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            orderList.add(
+              Order.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)[i],
+                ),
+              ),
+            );
+          }
+        },
+      );
+    } catch (e) {
+      showSnackbar(context, "fetch All ${e.toString()}");
+    }
+    return orderList;
+  }
+
+  Future<void> changeOrderStatus({
+    required BuildContext context,
+    required int status,
+    required Order order,
+    required VoidCallback onSuccess,
+  }) async {
+    try {
+      var res = await http.post(
+        Uri.parse('$uri/admin/change-order-status'),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8",
+          'x-auth-token': context.read<UserProvider>().user.token,
+        },
+        body: jsonEncode({
+          "id": order.id,
+          'status': status,
+        }),
       );
 
       httpErrorHandle(
