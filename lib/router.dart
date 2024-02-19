@@ -6,8 +6,10 @@ import 'package:e_commerce_app/features/admin/screens/posts_screen.dart';
 import 'package:e_commerce_app/features/auth/screens/auth_screens.dart';
 import 'package:e_commerce_app/features/home/screens/category_deal_screen.dart';
 import 'package:e_commerce_app/features/home/screens/home_screens.dart';
+import 'package:e_commerce_app/features/order_details/screens/order_details_screen.dart';
 import 'package:e_commerce_app/features/product_details/screens/product_details_screen.dart';
 import 'package:e_commerce_app/features/search/screens/search_screen.dart';
+import 'package:e_commerce_app/models/order.dart';
 import 'package:e_commerce_app/models/product.dart';
 import 'package:flutter/material.dart';
 
@@ -66,6 +68,12 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (context) => AddressScreen(amount: amount),
+      );
+    case OrderDetailsScreen.routeName:
+      var order = routeSettings.arguments as Order;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (context) => OrderDetailsScreen(order: order),
       );
     default:
       // TODO :Add here a lottiAnimation.

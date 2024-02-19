@@ -2,6 +2,7 @@ import 'package:e_commerce_app/common/widgets/loader.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/features/account/services/account_services.dart';
 import 'package:e_commerce_app/features/account/widgets/single_product.dart';
+import 'package:e_commerce_app/features/order_details/screens/order_details_screen.dart';
 import 'package:e_commerce_app/models/order.dart';
 import 'package:flutter/material.dart';
 
@@ -68,8 +69,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   scrollDirection: Axis.horizontal,
                   itemCount: orders!.length,
                   itemBuilder: (context, i) {
-                    return SingleProduct(
-                        image: orders![i].products[0].images[0]);
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                            OrderDetailsScreen.routeName,
+                            arguments: orders![i]);
+                      },
+                      child: SingleProduct(
+                          image: orders![i].products[0].images[0]),
+                    );
                   },
                 ),
               ),
