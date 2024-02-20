@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:e_commerce_app/common/widgets/custom_button.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/features/admin/services/admin_services.dart';
@@ -36,17 +38,50 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   }
 
   /// only for admin
-  void changeOrderStatus(int status) {
-    adminServices.changeOrderStatus(
-      context: context,
-      status: status + 1,
-      order: widget.order,
-      onSuccess: () {
-        setState(() {
-          currentStep += 1;
-        });
-      },
-    );
+  // void changeOrderStatus(int status) {
+  //   adminServices.changeOrderStatus(
+  //     context: context,
+  //     status: status + 1,
+  //     order: widget.order,
+  //     onSuccess: () {
+  //       setState(() {
+  //         currentStep += 1;
+  //         log(currentStep.toString());
+  //       });
+  //     },
+  //   );
+  // }
+
+  void onStepContinue(int status) {
+    if (currentStep < 3) {
+      adminServices.changeOrderStatus(
+        context: context,
+        status: status + 1,
+        order: widget.order,
+        onSuccess: () {
+          setState(() {
+            currentStep += 1;
+            log(currentStep.toString());
+          });
+        },
+      );
+    }
+  }
+
+  void onStepCancel(int status) {
+    if (currentStep > 0) {
+      adminServices.changeOrderStatus(
+        context: context,
+        status: status - 1,
+        order: widget.order,
+        onSuccess: () {
+          setState(() {
+            currentStep -= 1;
+            log(currentStep.toString());
+          });
+        },
+      );
+    }
   }
 
   @override
@@ -232,13 +267,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 ),
                 child: Stepper(
                   currentStep: currentStep,
+                  onStepCancel: () => onStepCancel(currentStep),
+                  onStepContinue: () => onStepContinue(currentStep),
                   controlsBuilder: (context, details) {
                     if (user.type == 'admin') {
                       return CustomButton(
                         text: 'Done',
-                        onTap: () {
-                          changeOrderStatus(details.currentStep);
-                        },
+                        onTap: details.onStepContinue!,
                       );
                     }
                     return const SizedBox();

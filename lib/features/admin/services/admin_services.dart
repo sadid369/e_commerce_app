@@ -77,7 +77,7 @@ class AdminServices {
           'x-auth-token': context.read<UserProvider>().user.token,
         },
       );
-      log(res.body);
+      // log(res.body);
       httpErrorHandle(
         response: res,
         context: context,
@@ -139,7 +139,7 @@ class AdminServices {
           'x-auth-token': context.read<UserProvider>().user.token,
         },
       );
-      log(res.body);
+      // log(res.body);
       httpErrorHandle(
         response: res,
         context: context,
@@ -185,7 +185,6 @@ class AdminServices {
         context: context,
         onSuccess: () {
           onSuccess();
-          showSnackbar(context, res.body);
         },
       );
     } catch (e) {
