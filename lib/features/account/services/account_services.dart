@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:e_commerce_app/constants/error_handaling.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
+import 'package:e_commerce_app/features/auth/screens/auth_screens.dart';
 import 'package:e_commerce_app/models/order.dart';
 import 'package:e_commerce_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountServices {
   Future<List<Order>> fetchMyOrder({required BuildContext context}) async {
@@ -42,5 +44,18 @@ class AccountServices {
       showSnackbar(context, "fetch All ${e.toString()}");
     }
     return orderList;
+  }
+
+  void logOut(BuildContext context) async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      await sharedPreferences.setString('x-auth-token', '');
+      Navigator.pushNamedAndRemoveUntil(
+          context, AuthScreens.routeName, (route) => false);
+      //
+    } catch (e) {
+      showSnackbar(context, e.toString());
+    }
   }
 }

@@ -7,6 +7,7 @@ import 'package:e_commerce_app/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_app/constants/error_handaling.dart';
 import 'package:e_commerce_app/constants/global_variables.dart';
 import 'package:e_commerce_app/constants/utils.dart';
+import 'package:e_commerce_app/features/admin/models/sales.dart';
 import 'package:e_commerce_app/features/admin/screens/admin_screens.dart';
 import 'package:e_commerce_app/features/admin/screens/posts_screen.dart';
 import 'package:e_commerce_app/models/order.dart';
@@ -190,5 +191,45 @@ class AdminServices {
     } catch (e) {
       showSnackbar(context, e.toString());
     }
+  }
+
+  Future<Map<String, dynamic>> getEarnings(BuildContext context) async {
+    List<Sales> sales = [];
+    num totalEarning = 0;
+    try {
+      var res = await http.get(
+        Uri.parse(
+          '$uri/admin/analytics',
+        ),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8",
+          'x-auth-token': context.read<UserProvider>().user.token,
+        },
+      );
+      // log(res.body);
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          var response = jsonDecode(res.body);
+          totalEarning = response['totalEarnings'];
+          sales = [
+            Sales(label: 'Mobiles', earnings: response['mobileEarnings']),
+            Sales(
+                label: 'Essentials', earnings: response['essentialsEarnings']),
+            Sales(
+                label: 'Appliances', earnings: response['appliancesEarnings']),
+            Sales(label: 'Books', earnings: response['booksEarnings']),
+            Sales(label: 'Fashion', earnings: response['fashionEarnings']),
+          ];
+        },
+      );
+    } catch (e) {
+      showSnackbar(context, "fetch All ${e.toString()}");
+    }
+    return {
+      'sales': sales,
+      'totalEarnings': totalEarning,
+    };
   }
 }
